@@ -1,0 +1,24 @@
+{
+    "extends": [
+        "plugin:vue/recommended",
+        "eslint-config-airbnb"
+    ],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "rules": {
+        "no-new": "off",
+        "no-param-reassign": [2, { "props": false }],
+        "linebreak-style": "off",
+        "import/newline-after-import": "off",
+        "prefer-destructuring": "off",
+        "no-console": "off"
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "status":"0",
+  "msg":"",
+  "result":[
+    {
+      "productId":"10004",
+      "productName":"iPhone 6 Plus",
+      "productPrice":"399.00",
+      "productImg":"1.jpg"
+    },
+    {
+        "productId":"10001",
+        "productName":"Principle of Economics",
+        "productPrice":"29.99",
+        "productImg":"2.jpg"
+    },
+    {
+      "productId":"10002",
+      "productName":"Futon",
+      "productPrice":"99.99",
+      "productImg":"3.png"
+    }
+  ]
+}

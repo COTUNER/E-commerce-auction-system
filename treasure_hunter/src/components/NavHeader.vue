@@ -1,0 +1,256 @@
+<template>
+  <div>
+    <header class="header">
+      <symbol id="icon-cart" viewBox="0 0 38 32">
+        <title>cart</title>
+        <path class="path1" d="M37.759 0h-4.133c-0.733 0.004-1.337 0.549-1.434 1.255l-0.546 4.342c-0.081 0.484-0.496 0.849-0.997 0.849-0.005 0-0.009-0-0.014-0h-27.604c-0.003 0-0.007-0-0.011-0-1.674 0-3.031 1.357-3.031 3.031 0 0.34 0.056 0.666 0.159 0.971l2.52 8.062c0.385 1.194 1.486 2.043 2.785 2.043 0.126 0 0.25-0.008 0.372-0.023l22.983 0.002c0.515 0.131 0.626 0.768 0.626 1.283 0.005 0.044 0.009 0.095 0.009 0.146 0 0.501-0.294 0.933-0.718 1.134l-22.439 0.003c-0.354 0-0.642 0.287-0.642 0.642s0.287 0.642 0.642 0.642h22.745l0.131-0.071c0.919-0.392 1.551-1.287 1.551-2.33 0-0.058-0.002-0.116-0.006-0.173 0.021-0.108 0.033-0.24 0.033-0.376 0-1.072-0.732-1.973-1.724-2.23l-23.357-0.004c-0.063 0.008-0.135 0.013-0.209 0.013-0.719 0-1.332-0.455-1.566-1.093l-2.53-8.095c-0.048-0.154-0.076-0.332-0.076-0.515 0-0.973 0.782-1.764 1.752-1.778h27.657c1.159-0.004 2.112-0.883 2.232-2.011l0.547-4.345c0.010-0.083 0.078-0.147 0.161-0.152l4.133-0c0.354 0 0.642-0.287 0.642-0.642s-0.287-0.642-0.642-0.642z"></path>
+        <path class="path2" d="M31.323 9.69c-0.022-0.003-0.048-0.004-0.074-0.004-0.328 0-0.598 0.248-0.633 0.567l-0.809 7.268c-0.003 0.022-0.004 0.048-0.004 0.074 0 0.328 0.248 0.598 0.567 0.633l0.074 0c0.001 0 0.003 0 0.004 0 0.327 0 0.596-0.246 0.632-0.563l0.809-7.268c0.003-0.022 0.004-0.048 0.004-0.074 0-0.328-0.248-0.598-0.567-0.633z"></path>
+        <path class="path3" d="M27.514 25.594c-1.769 0-3.203 1.434-3.203 3.203s1.434 3.203 3.203 3.203c1.769 0 3.203-1.434 3.203-3.203s-1.434-3.203-3.203-3.203zM27.514 30.717c-1.060 0-1.92-0.86-1.92-1.92s0.86-1.92 1.92-1.92c1.060 0 1.92 0.86 1.92 1.92s-0.86 1.92-1.92 1.92z"></path>
+        <path class="path4" d="M9.599 25.594c-1.769 0-3.203 1.434-3.203 3.203s1.434 3.203 3.203 3.203c1.769 0 3.203-1.434 3.203-3.203s-1.434-3.203-3.203-3.203zM9.599 30.717c-1.060 0-1.92-0.86-1.92-1.92s0.86-1.92 1.92-1.92c1.060 0 1.92 0.86 1.92 1.92s-0.86 1.92-1.92 1.92z"></path>
+      </symbol>
+      <div class="navbar">
+        <div class="navbar-left-container">
+          <a href="/">
+            <img height="200" class="navbar-brand-logo offset" src="static/logo.png"></a>
+        </div>
+        <div class="navbar-right-container" style="display: flex;">
+          <div class="navbar-menu-container">
+            <!--<a href="/" class="navbar-link">My account</a>-->
+            <span class="navbar-link"></span>
+            <span v-if="greeting" v-text="greeting"></span>
+            <a href="javascript:void(0)" class="navbar-link" v-if="!greeting" @click="loginModalUpdate(true)">Login</a>
+            <a href="javascript:void(0)" class="navbar-link" v-if="!greeting" @click="registerModalFlag=true">Register</a>
+            <a href="javascript:void(0)" class="navbar-link" v-else @click="logOut" >Logout</a>
+            <div class="navbar-cart-container">
+              <span class="navbar-cart-count"></span>
+              <a class="navbar-link navbar-cart-link" href="/cart">
+                <svg class="navbar-cart-logo">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart"></use>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="md-modal modal-msg md-modal-transition" v-bind:class="{'md-show':loginModalFlag}">
+          <div class="md-modal-inner">
+            <div class="md-top">
+              <div class="md-title">Login</div>
+              <button class="md-close" @click="loginModalUpdate(closeForm())">Close</button>
+            </div>
+            <div class="md-content">
+              <div class="confirm-tips">
+                <div class="error-wrap">
+                  <span class="error error-show" v-if="errorTip">{{ errorMsg }}</span>
+                </div>
+                <ul>
+                  <li class="regi_form_input">
+                    <i class="icon IconPeople"></i>
+                    <input type="email" tabindex="1" name="loginname" @keyup.enter="login" v-model="email" class="regi_login_input regi_login_input_left" placeholder="Email" data-type="loginname">
+                  </li>
+                  <li class="regi_form_input noMargin">
+                    <i class="icon IconPwd"></i>
+                    <input type="password" tabindex="2" name="password" @keyup.enter="login" v-model="password" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password">
+                  </li>
+                </ul>
+              </div>
+              <div class="login-wrap">
+                <input type="submit" @click="login" class="btn-login" value="Log In"></input>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md-modal modal-msg md-modal-transition" v-bind:class="{'md-show':registerModalFlag}">
+          <div class="md-modal-inner">
+            <div class="md-top">
+              <div class="md-title">Register</div>
+              <button class="md-close" @click="registerModalFlag=closeForm()">Close</button>
+            </div>
+            <div class="md-content">
+              <div class="confirm-tips">
+                <div class="error-wrap">
+                  <span class="error error-show" v-if="errorTip">{{errorMsg}}</span>
+                </div>
+                <ul>
+                  <li class="regi_form_input">
+                    <i class="icon IconPeople"></i>
+                    <input type="email" tabindex="1" name="loginname" v-model="email" class="regi_login_input regi_login_input_left" placeholder="Email" data-type="loginname" required>
+                  </li>
+                  <li class="regi_form_input noMargin">
+                    <i class="icon IconPwd"></i>
+                    <input type="password" tabindex="2" name="password" v-model="password" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Password" required>
+                  </li>
+                  <li class="regi_form_input noMargin">
+                    <i class="icon IconPwd"></i>
+                    <input type="text" tabindex="2" name="fullName" v-model="fullname" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Full Name" >
+                  </li>
+                  <li class="regi_form_input noMargin">
+                    <i class="icon IconPwd"></i>
+                    <input type="text" tabindex="3" name="telephone" class="regi_login_input regi_login_input_left login-input-no input_text" placeholder="Telephone Number">
+                  </li>
+                </ul>
+              </div>
+              <div class="login-wrap">
+                <input type="submit" class="btn-login" @keyup.enter="signup" @click="signup" value="Sign Up"></input>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="md-overlay" v-if="loginModalFlag || registerModalFlag" @click="loginModalUpdate(false); registerModalFlag=false"></div>
+      </div>
+    </header>
+  </div>
+</template>
+
+<style>
+.offset {
+  margin: 20px 0px 10px 20px;
+}
+</style>
+
+
+<script>
+import './../assets/css/login.css'
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      fullname: '',
+
+      registerFormValid: false,
+      loginFormValid: false,
+
+      errorTip: false,
+      errorMsg: "",
+
+
+      registerModalFlag: false,
+    }
+  },
+  mounted() {
+    this.checkLogin();
+  },
+  
+  computed: {
+    greeting () {
+      return this.$store.getters.greeting;
+    },
+    loginModalFlag () {
+      return this.$store.state.loginModalFlag;
+    }
+  },
+
+  methods: {
+    checkLogin() {
+      let token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
+      console.log("token",token)
+      let config = {
+        headers: { 'Authorization': "bearer " + token }
+      };
+      axios.get("/users/isLoggedIn", config).then((response) => {
+        this.$store.commit("updateUserInfo", response.data);
+        console.log("emit",response.data.fullname)
+        this.$emit("logged",response.data);
+        }).catch((err) => {
+          console.log("Not logged in yet", err);
+        }
+      );
+    },
+
+    loginModalUpdate(popup) {
+      this.$store.commit("loginModal", popup);
+    },
+
+    clearOutForm() {
+      this.fullname = '';
+      this.email = '';
+      this.password = '';
+      this.errorMsg = '';
+      this.errorTip = false;
+    },
+
+    closeForm(){
+      this.clearOutForm();
+      return false;
+    },
+
+    signup() {
+      if (!(this.email && this.password && this.fullname) ) {
+        this.errorTip = true;
+        this.errorMsg = "sign up form missing or incorrect";
+        return;
+      }
+
+      if ( !(/^[^@\s]+@rochester.edu$/i.test(this.email) || 
+      /^[^@\s]+@ur.rochester.edu$/i.test(this.email) || 
+      /^[^@\s]+@u.rochester.edu$/i.test(this.email))){
+        this.errorTip = true;
+        this.errorMsg = "Only UR email allow!";
+        return;
+      }
+
+      let param = {
+        email: this.email,
+        password: this.password,
+        fullname: this.fullname
+      };
+
+      axios.post("/users/reg", param).then((response) => {
+        let res = response.data;
+        this.registerModalFlag = false;
+        localStorage.setItem("token", res.token);
+        this.checkLogin();
+      }).catch((err) => {
+        this.errorTip = true;
+        this.errorMsg = err.message;
+      });
+    },
+
+    login() {
+      if (!this.email || !this.password) {
+        this.errorTip = true;
+        this.errorMsg = "Email or Password missing";
+        return;
+      }
+      let param = {
+        email: this.email,
+        password: this.password
+      };
+      axios.post("/users/login", param).then((response) => {
+
+        let res = response.data;
+        if (response.status == 200) {
+          this.errorTip = false;
+          this.loginModalUpdate(false);
+          this.$store.commit("updateUserInfo", res.user);
+          localStorage.setItem("token", res.token);
+          this.checkLogin();
+          this.clearOutForm();
+        }
+      }).catch((err) => {
+        this.errorTip = true;
+        this.errorMsg = err.message;
+      });
+    },
+
+    logOut() {
+      localStorage.removeItem('token');
+      this.$store.commit("updateUserInfo", { fullname: "", cartList: []});
+      this.$store.commit("messageModalUpdate",  'You have successfully logged out!');
+      this.$store.commit("sellListUpdate", {sellList:[]});
+
+    },
+  },
+  components: {
+  }
+}
+</script>
+
